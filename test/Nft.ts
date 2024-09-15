@@ -36,14 +36,14 @@ describe("EventNft", function () {
     });
 
     it("Should check if NFT address is set properly in event", async function () {
-      const { nft, owner,attendEvent } = await loadFixture(deployNftAndEventContract);
+      const { nft,attendEvent } = await loadFixture(deployNftAndEventContract);
 
       expect(await attendEvent.nftAddress()).is.equal(await nft.getAddress())
     })
   });
 
   it("Should check if mint is working properly", async function () {
-    const { nft, owner, account2,account3,attendEvent } = await loadFixture(deployNftAndEventContract);
+    const { nft, owner, account2 } = await loadFixture(deployNftAndEventContract);
 
     await nft.mint(owner)
     await nft.mint(account2)
@@ -57,7 +57,7 @@ describe("EventNft", function () {
   });
 
   it("Should check if user can enter event once", async function () {
-    const { nft, owner, account2,account3,attendEvent } = await loadFixture(deployNftAndEventContract);
+    const { nft,account2,attendEvent } = await loadFixture(deployNftAndEventContract);
     
     await nft.mint(account2)
 
@@ -68,7 +68,7 @@ describe("EventNft", function () {
   })
 
   it("Should check when user don't own NFT", async function () {
-    const { nft, owner, account2,account3,attendEvent } = await loadFixture(deployNftAndEventContract);
+    const { account2,attendEvent } = await loadFixture(deployNftAndEventContract);
 
     await expect(attendEvent.connect(account2).enterEventOnce())
     .to.be.revertedWith("you don't own this nft")
